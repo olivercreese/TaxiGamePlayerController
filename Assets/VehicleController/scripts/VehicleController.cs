@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class ArcadeVehicleController : MonoBehaviour
+public class VehicleController : MonoBehaviour
 {
     public enum groundCheck { rayCast, sphereCaste }; 
     public enum MovementMode { Velocity, AngularVelocity };
     public MovementMode movementMode;
     public groundCheck GroundCheck;
     public LayerMask drivableSurface;
+
 
     public float MaxSpeed, accelaration, turn, gravity = 7f, downforce = 5f, nitrous = 0f;
     [Tooltip("if true : can turn vehicle in air")]
@@ -46,7 +47,6 @@ public class ArcadeVehicleController : MonoBehaviour
     [HideInInspector]
     public float skidWidth;
 
-
     private float radius, horizontalInput, verticalInput;
     private Vector3 origin;
 
@@ -79,10 +79,17 @@ public class ArcadeVehicleController : MonoBehaviour
         }
     }
 
+    public void SetValues(float accel, float tur)
+    {
+        accelaration = accel;
+        turn = tur;
+    }
+
 
     void FixedUpdate()
     {
         carVelocity = carBody.transform.InverseTransformDirection(carBody.linearVelocity);
+
 
         if (Mathf.Abs(carVelocity.x) > 0)
         {
