@@ -64,6 +64,7 @@
     <Compile Include="Assets\scripts\nitrousPickup.cs" />
     <Compile Include="Assets\scripts\GameManager.cs" />
     <Compile Include="Assets\VehicleController\scripts\VehicleController.cs" />
+    <Compile Include="Assets\scripts\playerInput.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

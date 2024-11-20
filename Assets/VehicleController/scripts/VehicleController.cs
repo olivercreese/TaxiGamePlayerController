@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -37,7 +38,7 @@ public class VehicleController : MonoBehaviour
     [Range(0, 10)]
     public float BodyTilt;
     [Header("Audio settings")]
-    public AudioSource engineSound;
+   // public AudioSource engineSound;
     [Range(0, 1)]
     public float minPitch;
     [Range(1, 3)]
@@ -63,9 +64,10 @@ public class VehicleController : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal"); //turning input
         verticalInput = Input.GetAxis("Vertical");     //accelaration input
         Visuals();
-        AudioManager();
+        //AudioManager();
 
     }
+    /*
     public void AudioManager()
     {
         engineSound.pitch = Mathf.Lerp(minPitch, MaxPitch, Mathf.Abs(carVelocity.z) / MaxSpeed);
@@ -78,7 +80,7 @@ public class VehicleController : MonoBehaviour
             SkidSound.mute = true;
         }
     }
-
+    */
     public void SetValues(float accel, float tur)
     {
         accelaration = accel;
@@ -90,7 +92,8 @@ public class VehicleController : MonoBehaviour
     {
         carVelocity = carBody.transform.InverseTransformDirection(carBody.linearVelocity);
 
-
+        if (GetComponent<playerInput>().isBoost && nitrous> 0) {  MaxSpeed =100; }
+        else  { MaxSpeed = 50; }
         if (Mathf.Abs(carVelocity.x) > 0)
         {
             //changes friction according to sideways speed of car
@@ -104,8 +107,9 @@ public class VehicleController : MonoBehaviour
             float sign = Mathf.Sign(carVelocity.z);
             float TurnMultiplyer = turnCurve.Evaluate(carVelocity.magnitude / MaxSpeed);
             if (kartLike && Input.GetAxis("Jump") > 0.1f) { TurnMultiplyer *= driftMultiplier; } //turn more if drifting
-
-
+            
+      
+            
             if (verticalInput > 0.1f || carVelocity.z > 1)
             {
                 carBody.AddTorque(Vector3.up * horizontalInput * sign * turn * 100 * TurnMultiplyer);

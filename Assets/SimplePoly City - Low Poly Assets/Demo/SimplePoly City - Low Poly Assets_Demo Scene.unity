@@ -29663,6 +29663,10 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3948837771421061263, guid: d0ad888aefb304b46907617666dae748, type: 3}
+      propertyPath: nitrous
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948837771421061263, guid: d0ad888aefb304b46907617666dae748, type: 3}
       propertyPath: MaxSpeed
       value: 50
       objectReference: {fileID: 0}
@@ -29708,7 +29712,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5862088704279539507, guid: d0ad888aefb304b46907617666dae748, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6818242325694066945, guid: d0ad888aefb304b46907617666dae748, type: 3}
       propertyPath: m_Layer
@@ -29733,7 +29737,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7007795093610891494, guid: d0ad888aefb304b46907617666dae748, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1831820165}
   m_SourcePrefab: {fileID: 100100000, guid: d0ad888aefb304b46907617666dae748, type: 3}
 --- !u!1 &836705579 stripped
 GameObject:
@@ -68418,6 +68425,41 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: acf38ccf2258add4ba3aa2d89b708d2a, type: 3}
   m_PrefabInstance: {fileID: 1325538411}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1831820164 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7007795093610891494, guid: d0ad888aefb304b46907617666dae748, type: 3}
+  m_PrefabInstance: {fileID: 836686486}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1831820165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831820164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17feb470c9d0e3943b1e4bfea25983d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBoost: 0
+  boost:
+    m_Name: Boost
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 3d3c493f-c4b6-434f-8bd8-ba31d0117e4d
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 1ec6976b-d447-4027-a108-3fcb6df8f895
+      m_Path: <Keyboard>/leftShift
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Boost
+      m_Flags: 0
+    m_Flags: 0
 --- !u!1001 &1832339259
 PrefabInstance:
   m_ObjectHideFlags: 0
