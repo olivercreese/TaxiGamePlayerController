@@ -53,6 +53,9 @@ public class EnemyAIController : MonoBehaviour
     public Vector3 targetpos;
 
     public Transform Path;
+
+    private List<Transform> nodes;
+    private int currentnode = 0;
    
 
     private void Start()
@@ -64,7 +67,15 @@ public class EnemyAIController : MonoBehaviour
         }
 
         Transform[] pathTransforms = Path.GetComponentsInChildren<Transform>();
-       
+        nodes= new List<Transform>();
+        for (int i = 0; i < pathTransforms.Length; i++)
+        {
+            if (pathTransforms[i] != transform)
+            {
+                nodes.Add(pathTransforms[i]);
+            }
+        }
+
         taxi = GameObject.FindGameObjectWithTag("Passenger");
     }
     private void Update()
