@@ -11,6 +11,6 @@ public class GameManager : MonoBehaviour
 
     public void GotCollectable()
     {
-        player.GetComponent<VehicleController>().nitrous += 100;
+        player.GetComponent<TrafficController>().nitrous += 100;
     }
 }
