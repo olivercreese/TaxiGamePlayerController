@@ -34,15 +34,5 @@ public class playerInput : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        if (isBoost)
-        {
-            Debug.Log("Boosting");
-        }
-        else if (!isBoost)
-        {
-            Debug.Log("Not Boosting");
-        }
-    }
+
 }
