@@ -11,8 +11,9 @@ public class collisionScript : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            
 
-            rb.AddForce(collision.gameObject.transform.forward * 500f,ForceMode.Impulse);
+            rb.AddForceAtPosition(collision.gameObject.transform.forward * 500f,collision.GetContact(1).point,ForceMode.Impulse);
             Debug.Log("Collision with player");
             //Destroy(this.gameObject);
         }
