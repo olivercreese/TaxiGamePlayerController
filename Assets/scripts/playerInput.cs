@@ -34,7 +34,7 @@ public class playerInput : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+   /* private void FixedUpdate()
     {
         if (isBoost)
         {
@@ -44,5 +44,5 @@ public class playerInput : MonoBehaviour
         {
             Debug.Log("Not Boosting");
         }
-    }
+    }*/
 }

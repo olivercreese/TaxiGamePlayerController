@@ -33,7 +33,7 @@ public class Path : MonoBehaviour
         {
             Vector3 currentNode = nodes[i].position;
             Vector3 previousNode = nodes[(count - 1 + i) % count].position;
-            Gizmos.DrawLine(previousNode, currentNode);
+          
             Gizmos.DrawSphere(currentNode, 1);
         }
     }
