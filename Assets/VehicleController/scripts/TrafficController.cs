@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 
-public class VehicleController : MonoBehaviour
+public class TrafficController : MonoBehaviour
 {
     public enum groundCheck { rayCast, sphereCaste }; 
     public enum MovementMode { Velocity, AngularVelocity };
@@ -63,6 +63,8 @@ public class VehicleController : MonoBehaviour
     {
         horizontalInput = Input.GetAxis("Horizontal"); //turning input
         verticalInput = Input.GetAxis("Vertical");     //accelaration input
+
+
         Visuals();
         //AudioManager();
 
@@ -179,6 +181,23 @@ public class VehicleController : MonoBehaviour
             rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, rb.linearVelocity + Vector3.down * gravity, Time.deltaTime * gravity);
         }
 
+        /*if (carBody.transform.position.x < -45) //Resets position to the other side of the map
+        {
+            carBody.transform.position = new Vector3(44, 1, carBody.transform.position.z);
+        }
+        else if (carBody.transform.position.x > 45)
+        {
+            carBody.transform.position = new Vector3(-44, 1, carBody.transform.position.z);
+        }
+        if (carBody.transform.position.z < -45)
+        {
+            carBody.transform.position = new Vector3(carBody.transform.position.x, 1, 34);
+        }
+        else if (carBody.transform.position.z > 45)
+        {
+            carBody.transform.position = new Vector3(carBody.transform.position.x, 1, -34);
+        }
+*/
     }
     public void Visuals()
     {
