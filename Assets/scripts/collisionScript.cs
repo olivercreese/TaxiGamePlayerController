@@ -9,12 +9,9 @@ public class collisionScript : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player" )
         {
-            
-
-            rb.AddForceAtPosition(collision.gameObject.transform.forward * 500f,collision.GetContact(1).point,ForceMode.Impulse);
-            Debug.Log("Collision with player");
+            rb.AddForceAtPosition(collision.gameObject.transform.forward * 1000f,collision.GetContact(1).point,ForceMode.Impulse);
             //Destroy(this.gameObject);
         }
     }
