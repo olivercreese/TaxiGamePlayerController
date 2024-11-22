@@ -94,7 +94,7 @@ public class TrafficController : MonoBehaviour
     {
         carVelocity = carBody.transform.InverseTransformDirection(carBody.linearVelocity);
 
-        if (GetComponent<playerInput>().isBoost && nitrous> 0) {  MaxSpeed =100;  }
+        if (GetComponent<playerInput>().isBoost && nitrous> 0) {  MaxSpeed = 100;  }
         else  { MaxSpeed = 50; }
         if (Mathf.Abs(carVelocity.x) > 0)
         {

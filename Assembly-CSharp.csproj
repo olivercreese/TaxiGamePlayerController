@@ -61,11 +61,15 @@
     <Analyzer Include="D:\6000.0.5f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\VehicleController\scripts\TrafficController.cs" />
+    <Compile Include="Assets\VehicleController\scripts\DestinationObj.cs" />
+    <Compile Include="Assets\VehicleController\scripts\EnemyAIController.cs" />
     <Compile Include="Assets\scripts\nitrousPickup.cs" />
     <Compile Include="Assets\scripts\GameManager.cs" />
+    <Compile Include="Assets\VehicleController\scripts\Path.cs" />
     <Compile Include="Assets\scripts\collisionScript.cs" />
-    <Compile Include="Assets\VehicleController\scripts\VehicleController.cs" />
     <Compile Include="Assets\scripts\playerInput.cs" />
+    <Compile Include="Assets\VehicleController\scripts\Cube.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
