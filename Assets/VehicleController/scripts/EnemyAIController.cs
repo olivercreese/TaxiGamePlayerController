@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -58,8 +59,6 @@ public class EnemyAIController : MonoBehaviour
     public float maxSteerAngle = 45f;
     private List<Transform> nodes;
     private int currentnode = 0;
-    private List<Transform> waypoints;
-
 
     private void Start()
     {
@@ -78,65 +77,35 @@ public class EnemyAIController : MonoBehaviour
                 nodes.Add(pathTransforms[i]);
             }
         }
+
         taxi = GameObject.FindGameObjectWithTag("Passenger");
     }
     private void Update()
     {
-        /*Findway(taxi.transform.position);
 
-        nodepos = waypoints[currentnode].position;
-        float distancetotarget = Vector3.Distance(nodepos, transform.position);
-        Vector3 dirtomove = (nodepos - transform.position).normalized;
-        float dot = Vector3.Dot(transform.forward, dirtomove);
-        Debug.Log(dot);
+        if (Vector3.Distance(taxi.transform.position, transform.position) < 25)
+        {
+            nodepos = taxi.transform.position;
+        }
 
-        if (dot > 0) { verticalInput = 1; }
         else
         {
-            float reverseD = 10f;
-            if (distancetotarget > reverseD)
-            { verticalInput = 1; }
-            else
-            { verticalInput = -1; }
-        }
-
-        float angletodir = Vector3.SignedAngle(transform.forward, dirtomove, Vector3.up);
-        if (angletodir > 0) { horizontalInput = 1; }
-        else { horizontalInput = -1; }
-
-        if (Vector3.Distance(transform.position, waypoints[0].position)<0.05)
-        {
-            waypoints.Remove(waypoints[0]);
-        }*/
-
-        Vector3 closetoplayer = nodes[currentnode].position;
-        float dist = Vector3.Distance(taxi.transform.position, nodes[currentnode].position);
-
-        for (int i=0;i<nodes.Count;i++) 
-        {
-            if(Vector3.Distance(taxi.transform.position, nodes[i].position)<dist)
+            Vector3 closetoplayer = nodes[currentnode].position;
+            float dist = Vector3.Distance(taxi.transform.position, nodes[currentnode].position);
+           
+            for (int i = 0; i < nodes.Count; i++)
             {
-               currentnode = i;
+                if(Vector3.Distance(transform.position, nodes[i].position)<30)
+                {
+                    if (Vector3.Distance(taxi.transform.position, nodes[i].position) < dist)
+                    {
+                        currentnode = i;
+                    }
+                }
             }
+            nodepos = nodes[currentnode].position;
         }
-
-        /*float nearuandhim = Vector3.Distance(transform.position, closetoplayer);
-
-        for (int i = 0; i < nodes.Count; i++)
-        {
-            if (Vector3.Distance(transform.position, nodes[i].position) < 40)
-            {
-
-            }
-
-        }*/
-
-
-            targetpos = taxi.transform.position;
-        nodepos = nodes[currentnode].position;
-
-        horizontalInput = 0; //turning input
-        verticalInput = 1;     //accelaration input
+   
         float distancetotarget = Vector3.Distance(nodepos, transform.position);
         Vector3 dirtomove = (nodepos - transform.position).normalized;
         float dot = Vector3.Dot(transform.forward, dirtomove);
@@ -343,56 +312,7 @@ public class EnemyAIController : MonoBehaviour
         }
         else { return false; }
     }
-
-    private void Findway(Vector3 positionoftarget)
-    {
-        int nFirst = 0; 
-        float dist = Vector3.Distance(transform.position, nodes[currentnode].position);
-        for (int i = 1;i< nodes.Count;i++) 
-        {
-            float d = Vector3.Distance(transform.position, nodes[i].position);
-            if (d<dist)
-            {
-                nFirst = i;
-                dist = d;
-              
-            }
-        }
-        int nLast = 0;
-        float dist2 = Vector3.Distance(positionoftarget, nodes[currentnode].position);
-        for (int i = 1; i < nodes.Count; i++)
-        {
-            float d2 = Vector3.Distance(positionoftarget, nodes[i].position);
-            if (d2 < dist2)
-            {
-                nLast = i;
-                dist2 = d2;
-           
-            }
-        }
-
-        if(waypoints.Count != 0)
-        { waypoints.Clear(); }
-
-        waypoints.Add(nodes[nFirst]);
-        waypoints.Add(nodes[nLast]);
-        //Debug.Log(waypoints.Count);
-        /*List<int> path = null;
-        if (PathFind(nodes, nFirst, nLast, path))
-        {
-            for (int i = 0; i<path.Count; i++)
-            waypoints.Add(nodes[i]);
-            Debug.Log(waypoints);
-        }
-*/
-    }
-
-    /*private bool PathFind(List<Transform>graph, int nStart, int nGoal, List<int> path)
-    {
-        path.Add(nStart);
-        path.Add(nGoal);
-        return true;
-    }*/
+    
 
     private void OnDrawGizmos()
     {
