@@ -61,9 +61,9 @@ public class TrafficController : MonoBehaviour
     }
     private void Update()
     {
-        horizontalInput = 0; //turning input
-        verticalInput = 1;    //accelaration input
-     
+        horizontalInput = Input.GetAxis("Horizontal"); //turning input
+        verticalInput = Input.GetAxis("Vertical");     //accelaration input
+
 
         Visuals();
         //AudioManager();
@@ -181,7 +181,7 @@ public class TrafficController : MonoBehaviour
             rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, rb.linearVelocity + Vector3.down * gravity, Time.deltaTime * gravity);
         }
 
-        if (carBody.transform.position.x < -45) //Resets position to the other side of the map
+        /*if (carBody.transform.position.x < -45) //Resets position to the other side of the map
         {
             carBody.transform.position = new Vector3(44, 1, carBody.transform.position.z);
         }
@@ -197,7 +197,7 @@ public class TrafficController : MonoBehaviour
         {
             carBody.transform.position = new Vector3(carBody.transform.position.x, 1, -34);
         }
-
+*/
     }
     public void Visuals()
     {
