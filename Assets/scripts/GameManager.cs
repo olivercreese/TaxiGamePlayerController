@@ -7,10 +7,12 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
     }
 
+   
     public void GotCollectable()
     {
-        player.GetComponent<VehicleController>().nitrous += 100;
+        player.GetComponent<TrafficController>().nitrous += 100;
     }
 }

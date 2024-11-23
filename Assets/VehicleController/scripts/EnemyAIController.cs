@@ -1,12 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-
-public class VehicleController : MonoBehaviour
+public class EnemyAIController : MonoBehaviour
 {
-    public enum groundCheck { rayCast, sphereCaste }; 
+    public enum groundCheck { rayCast, sphereCaste };
     public enum MovementMode { Velocity, AngularVelocity };
     public MovementMode movementMode;
     public groundCheck GroundCheck;
@@ -38,7 +39,7 @@ public class VehicleController : MonoBehaviour
     [Range(0, 10)]
     public float BodyTilt;
     [Header("Audio settings")]
-   // public AudioSource engineSound;
+    // public AudioSource engineSound;
     [Range(0, 1)]
     public float minPitch;
     [Range(1, 3)]
@@ -50,22 +51,93 @@ public class VehicleController : MonoBehaviour
 
     private float radius, horizontalInput, verticalInput;
     private Vector3 origin;
+    public GameObject taxi;
+    public Vector3 targetpos;
+    public Vector3 nodepos;
+
+    public Transform Path;
+    private List<Transform> nodes;
+    private int currentnode = 0;
+    bool passenger = false;
 
     private void Start()
     {
+        Transform[] pathTransforms = Path.GetComponentsInChildren<Transform>();
+        nodes = new List<Transform>();
+        for (int i = 0; i < pathTransforms.Length; i++)
+        {
+            if (pathTransforms[i] != Path.transform)
+            {
+                nodes.Add(pathTransforms[i]);
+            }
+        }
+        int rand = UnityEngine.Random.Range(0, nodes.Count);
+
+        transform.Translate(nodes[rand].position);
+
         radius = rb.GetComponent<SphereCollider>().radius;
         if (movementMode == MovementMode.AngularVelocity)
         {
             Physics.defaultMaxAngularSpeed = 100;
         }
+        taxi = GameObject.FindGameObjectWithTag("Passenger");
+
     }
+
+    
+
     private void Update()
     {
-        horizontalInput = Input.GetAxis("Horizontal"); //turning input
-        verticalInput = Input.GetAxis("Vertical");     //accelaration input
+        if (passenger)
+        {
+
+        }
+        else
+        {
+            if (Vector3.Distance(taxi.transform.position, transform.position) < 25) //If player is close
+            {
+                nodepos = taxi.transform.position;
+            }
+
+            else //else follow the nearest node
+            {
+                Vector3 closetoplayer = nodes[currentnode].position;
+                float dist = Vector3.Distance(taxi.transform.position, nodes[currentnode].position);
+
+                for (int i = 0; i < nodes.Count; i++)
+                {
+                    if (Vector3.Distance(transform.position, nodes[i].position) < 30)//to chnage node range
+                    {
+                        if (Vector3.Distance(taxi.transform.position, nodes[i].position) < dist)
+                        {
+                            currentnode = i;
+                        }
+                    }
+                }
+                nodepos = nodes[currentnode].position;
+            }
+
+            float distancetotarget = Vector3.Distance(nodepos, transform.position);
+            Vector3 dirtomove = (nodepos - transform.position).normalized;
+            float dot = Vector3.Dot(transform.forward, dirtomove);
+            //Debug.Log(dot);
+
+            if (dot > 0) { verticalInput = 1; }
+            else
+            {
+                float reverseD = 10f;
+                if (distancetotarget > reverseD)
+                { verticalInput = 1; }
+                else
+                { verticalInput = -1; }
+            }
+
+            float angletodir = Vector3.SignedAngle(transform.forward, dirtomove, Vector3.up);
+            if (angletodir > 0) { horizontalInput = 1; }
+            else { horizontalInput = -1; }
+        }
         Visuals();
         //AudioManager();
-
     }
     /*
     public void AudioManager()
@@ -92,8 +164,8 @@ public class VehicleController : MonoBehaviour
     {
         carVelocity = carBody.transform.InverseTransformDirection(carBody.linearVelocity);
 
-        if (GetComponent<playerInput>().isBoost && nitrous> 0) {  MaxSpeed =100; }
-        else  { MaxSpeed = 50; }
+        if (GetComponent<playerInput>().isBoost && nitrous > 0) { MaxSpeed = 100; }
+        else { MaxSpeed = 50; }
         if (Mathf.Abs(carVelocity.x) > 0)
         {
             //changes friction according to sideways speed of car
@@ -107,9 +179,8 @@ public class VehicleController : MonoBehaviour
             float sign = Mathf.Sign(carVelocity.z);
             float TurnMultiplyer = turnCurve.Evaluate(carVelocity.magnitude / MaxSpeed);
             if (kartLike && Input.GetAxis("Jump") > 0.1f) { TurnMultiplyer *= driftMultiplier; } //turn more if drifting
-            
-      
-            
+
+
             if (verticalInput > 0.1f || carVelocity.z > 1)
             {
                 carBody.AddTorque(Vector3.up * horizontalInput * sign * turn * 100 * TurnMultiplyer);
@@ -118,8 +189,6 @@ public class VehicleController : MonoBehaviour
             {
                 carBody.AddTorque(Vector3.up * horizontalInput * sign * turn * 100 * TurnMultiplyer);
             }
-
-
 
             // mormal brakelogic
             if (!kartLike)
@@ -178,7 +247,6 @@ public class VehicleController : MonoBehaviour
             carBody.MoveRotation(Quaternion.Slerp(carBody.rotation, Quaternion.FromToRotation(carBody.transform.up, Vector3.up) * carBody.transform.rotation, 0.02f));
             rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, rb.linearVelocity + Vector3.down * gravity, Time.deltaTime * gravity);
         }
-
     }
     public void Visuals()
     {
@@ -256,6 +324,7 @@ public class VehicleController : MonoBehaviour
         else { return false; }
     }
 
+   
     private void OnDrawGizmos()
     {
         //debug gizmos
