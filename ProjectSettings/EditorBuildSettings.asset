@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Main_Menu.unity
     guid: f3c8d43548f692b4bb99b5da058f58a5
   - enabled: 1
+    path: Assets/Scenes/PAOLOSMAP.unity
+    guid: a0976646ead0c424498f0a84e50f7e11
+  - enabled: 1
     path: Assets/Scenes/Pathfidning_test.unity
     guid: 7040911f6b2bca94d8b0d5b22349ca5b
   m_configObjects:
