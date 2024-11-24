@@ -85,8 +85,8 @@ public class TrafficController : MonoBehaviour
     */
     public void SetValues(float accel, float tur)
     {
-        accelaration = accel;
-        turn = tur;
+        horizontalInput = accel;
+        verticalInput = tur;
     }
 
 
@@ -94,7 +94,7 @@ public class TrafficController : MonoBehaviour
     {
         carVelocity = carBody.transform.InverseTransformDirection(carBody.linearVelocity);
 
-        if (GetComponent<playerInput>().isBoost && nitrous> 0) {  MaxSpeed =100; }
+        if (GetComponent<playerInput>().isBoost && nitrous> 0) {  MaxSpeed =100;  }
         else  { MaxSpeed = 50; }
         if (Mathf.Abs(carVelocity.x) > 0)
         {
@@ -212,10 +212,11 @@ public class TrafficController : MonoBehaviour
         RearWheels[1].localRotation = rb.transform.localRotation;
 
         //Body
-        if (carVelocity.z > 1)
+        if (carVelocity.z > 1 )
         {
             BodyMesh.localRotation = Quaternion.Slerp(BodyMesh.localRotation, Quaternion.Euler(Mathf.Lerp(0, -5, carVelocity.z / MaxSpeed),
                                BodyMesh.localRotation.eulerAngles.y, BodyTilt * horizontalInput), 0.4f * Time.deltaTime / Time.fixedDeltaTime);
+            if (GetComponent<playerInput>().isBoost && nitrous > 0) { BodyMesh.localRotation = Quaternion.Slerp(BodyMesh.localRotation, Quaternion.Euler(-10, 0, 0), 0.4f * Time.deltaTime / Time.fixedDeltaTime); }
         }
         else
         {
