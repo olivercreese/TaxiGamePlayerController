@@ -13,6 +13,7 @@ public class ButtonHandler : MonoBehaviour
     public void onclickButton2()
     {
         Debug.Log("button2");
+        Application.Quit();
     }
 
     void GoToNextScene()
