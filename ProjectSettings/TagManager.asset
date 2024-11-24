@@ -5,10 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Taxi
-  - Destination
-  - Traffic
   - Enemy
-  - Passenger
   layers:
   - Default
   - TransparentFX
@@ -19,7 +16,7 @@ TagManager:
   - drivable
   - pickup
   - player
-  - 
+  - INVIS
   - 
   - 
   - 

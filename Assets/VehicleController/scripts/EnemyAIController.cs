@@ -62,6 +62,7 @@ public class EnemyAIController : MonoBehaviour
 
     private void Start()
     {
+        nodepos = origin;
         Transform[] pathTransforms = Path.GetComponentsInChildren<Transform>();
         nodes = new List<Transform>();
         for (int i = 0; i < pathTransforms.Length; i++)
@@ -71,16 +72,13 @@ public class EnemyAIController : MonoBehaviour
                 nodes.Add(pathTransforms[i]);
             }
         }
-        int rand = UnityEngine.Random.Range(0, nodes.Count);
-
-        transform.Translate(nodes[rand].position);
-
+      
         radius = rb.GetComponent<SphereCollider>().radius;
         if (movementMode == MovementMode.AngularVelocity)
         {
             Physics.defaultMaxAngularSpeed = 100;
         }
-        taxi = GameObject.FindGameObjectWithTag("Passenger");
+        taxi = GameObject.FindGameObjectWithTag("Player");
 
     }
 
@@ -88,13 +86,8 @@ public class EnemyAIController : MonoBehaviour
 
     private void Update()
     {
-        if (passenger)
         {
-
-        }
-        else
-        {
-            if (Vector3.Distance(taxi.transform.position, transform.position) < 25) //If player is close
+            if (Vector3.Distance(taxi.transform.position, transform.position) < 15) //If player is close
             {
                 nodepos = taxi.transform.position;
             }
@@ -106,7 +99,7 @@ public class EnemyAIController : MonoBehaviour
 
                 for (int i = 0; i < nodes.Count; i++)
                 {
-                    if (Vector3.Distance(transform.position, nodes[i].position) < 30)//to chnage node range
+                    if (Vector3.Distance(transform.position, nodes[i].position) < 15)//to chnage node range
                     {
                         if (Vector3.Distance(taxi.transform.position, nodes[i].position) < dist)
                         {
@@ -164,8 +157,7 @@ public class EnemyAIController : MonoBehaviour
     {
         carVelocity = carBody.transform.InverseTransformDirection(carBody.linearVelocity);
 
-        if (GetComponent<playerInput>().isBoost && nitrous > 0) { MaxSpeed = 100; }
-        else { MaxSpeed = 50; }
+      
         if (Mathf.Abs(carVelocity.x) > 0)
         {
             //changes friction according to sideways speed of car
