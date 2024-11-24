@@ -56,20 +56,14 @@ public class EnemyAIController : MonoBehaviour
     public Vector3 nodepos;
 
     public Transform Path;
-    public float maxSteerAngle = 45f;
     private List<Transform> nodes;
     private int currentnode = 0;
+    bool passenger = false;
 
     private void Start()
     {
-        radius = rb.GetComponent<SphereCollider>().radius;
-        if (movementMode == MovementMode.AngularVelocity)
-        {
-            Physics.defaultMaxAngularSpeed = 100;
-        }
-
         Transform[] pathTransforms = Path.GetComponentsInChildren<Transform>();
-        nodes= new List<Transform>();
+        nodes = new List<Transform>();
         for (int i = 0; i < pathTransforms.Length; i++)
         {
             if (pathTransforms[i] != Path.transform)
@@ -77,55 +71,72 @@ public class EnemyAIController : MonoBehaviour
                 nodes.Add(pathTransforms[i]);
             }
         }
+        int rand = UnityEngine.Random.Range(0, nodes.Count);
 
+        transform.Translate(nodes[rand].position);
+
+        radius = rb.GetComponent<SphereCollider>().radius;
+        if (movementMode == MovementMode.AngularVelocity)
+        {
+            Physics.defaultMaxAngularSpeed = 100;
+        }
         taxi = GameObject.FindGameObjectWithTag("Passenger");
+
     }
+
+    
+
     private void Update()
     {
-
-        if (Vector3.Distance(taxi.transform.position, transform.position) < 25)
+        if (passenger)
         {
-            nodepos = taxi.transform.position;
-        }
 
+        }
         else
         {
-            Vector3 closetoplayer = nodes[currentnode].position;
-            float dist = Vector3.Distance(taxi.transform.position, nodes[currentnode].position);
-           
-            for (int i = 0; i < nodes.Count; i++)
+            if (Vector3.Distance(taxi.transform.position, transform.position) < 25) //If player is close
             {
-                if(Vector3.Distance(transform.position, nodes[i].position)<30)
+                nodepos = taxi.transform.position;
+            }
+
+            else //else follow the nearest node
+            {
+                Vector3 closetoplayer = nodes[currentnode].position;
+                float dist = Vector3.Distance(taxi.transform.position, nodes[currentnode].position);
+
+                for (int i = 0; i < nodes.Count; i++)
                 {
-                    if (Vector3.Distance(taxi.transform.position, nodes[i].position) < dist)
+                    if (Vector3.Distance(transform.position, nodes[i].position) < 30)//to chnage node range
                     {
-                        currentnode = i;
+                        if (Vector3.Distance(taxi.transform.position, nodes[i].position) < dist)
+                        {
+                            currentnode = i;
+                        }
                     }
                 }
+                nodepos = nodes[currentnode].position;
             }
-            nodepos = nodes[currentnode].position;
-        }
-   
-        float distancetotarget = Vector3.Distance(nodepos, transform.position);
-        Vector3 dirtomove = (nodepos - transform.position).normalized;
-        float dot = Vector3.Dot(transform.forward, dirtomove);
-        //Debug.Log(dot);
 
-        if (dot > 0) { verticalInput = 1; }
-        else
-        {
-            float reverseD = 10f;
-            if (distancetotarget > reverseD)
-            { verticalInput = 1; }
+            float distancetotarget = Vector3.Distance(nodepos, transform.position);
+            Vector3 dirtomove = (nodepos - transform.position).normalized;
+            float dot = Vector3.Dot(transform.forward, dirtomove);
+            //Debug.Log(dot);
+
+            if (dot > 0) { verticalInput = 1; }
             else
-            { verticalInput = -1; }
-        }
+            {
+                float reverseD = 10f;
+                if (distancetotarget > reverseD)
+                { verticalInput = 1; }
+                else
+                { verticalInput = -1; }
+            }
 
-        float angletodir = Vector3.SignedAngle(transform.forward, dirtomove, Vector3.up);
-        if (angletodir > 0) { horizontalInput = 1; }
-        else { horizontalInput = -1; }
-       
-            Visuals();
+            float angletodir = Vector3.SignedAngle(transform.forward, dirtomove, Vector3.up);
+            if (angletodir > 0) { horizontalInput = 1; }
+            else { horizontalInput = -1; }
+        }
+        Visuals();
         //AudioManager();
     }
     /*
@@ -312,8 +323,8 @@ public class EnemyAIController : MonoBehaviour
         }
         else { return false; }
     }
-    
 
+   
     private void OnDrawGizmos()
     {
         //debug gizmos
